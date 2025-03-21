@@ -1,0 +1,7 @@
+{
+  "name": "Fare Kiosk UI",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
