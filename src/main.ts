@@ -20,6 +20,11 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
+// material
+import '@material/web/button/filled-button.js';
+import '@material/web/button/outlined-button.js';
+import '@material/web/checkbox/checkbox.js';
+
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
@@ -29,14 +34,16 @@ import '@ionic/vue/css/display.css';
 
 /* @import '@ionic/vue/css/palettes/dark.always.css'; */
 /* @import '@ionic/vue/css/palettes/dark.class.css'; */
-import '@ionic/vue/css/palettes/dark.system.css';
+// import '@ionic/vue/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import i18n from './i18n'
 
 const app = createApp(App)
-  .use(IonicVue)
-  .use(router);
+  .use(IonicVue, { mode: 'md' })
+  .use(router)
+  .use(i18n)
 
 router.isReady().then(() => {
   app.mount('#app');
