@@ -10,5 +10,5 @@ import { IonApp, IonRouterOutlet } from '@ionic/vue';
 </script>
 
 <style>
-@import "tailwindcss";
+/* @import "tailwindcss"; */
 </style>

@@ -1,0 +1,35 @@
+html {
+    font-size: 16px;
+}
+
+h1, h2, p {
+    color: var(--ion-color-base);
+}
+
+
+.text-display {
+    font-family: "Display";
+    font-weight: 800 !important;
+}
+
+.text-body {
+    font-family: "Body";
+}
+
+.text-body-italic {
+    font-family: 'Body';
+    font-style: italic;
+}
+
+.text-xs { font-size: 0.625rem; }  /* 10px */
+.text-sm { font-size: 0.75rem; }   /* 12px */
+.text-md { font-size: 0.875rem; }  /* 14px */
+.text-base { font-size: 1rem; }    /* 16px */
+.text-lg { font-size: 1.25rem; }   /* 20px */
+.text-xl { font-size: 1.5625rem; } /* 25px */
+.text-2xl { font-size: 1.9375rem; } /* 31px */
+.text-3xl { font-size: 2.4375rem; } /* 39px */
+.text-4xl { font-size: 3.0625rem; } /* 49px */
+.text-5xl { font-size: 3.8125rem; } /* 61px */
+.text-6xl { font-size: 4.75rem; }   /* 76px */
+.text-7xl { font-size: 5.9375rem; } /* 95px */

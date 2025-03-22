@@ -1,2 +1,30 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+@font-face {
+    font-family: "Display";
+    src: url("@/assets/fonts/Montserrat.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Body";
+    src: url("@/assets/fonts/ZillaSlab-Regular.ttf") format("truetype"), url("@/assets/fonts/ZillaSlab-Italic.ttf") format("truetype"), url("@/assets/fonts/ZillaSlab-Medium.ttf") format("truetype"), url("@/assets/fonts/ZillaSlab-Bold.ttf") format("truetype");
+}
+
+
+:root {
+    --ion-color-primary: #0097b2;
+    --ion-color-secondary: #18375d;
+    --ion-color-tertiary-1: #f06356;
+    --ion-color-tertiary-2: #d6f056;
+
+    
+}
+
+.ion-color-tertiary-1 {
+	--ion-color-base: var(--ion-color-tertiary-1);
+}
+.ion-color-tertiary-2 {
+	--ion-color-base: var(--ion-color-tertiary-2);
+}
+
+

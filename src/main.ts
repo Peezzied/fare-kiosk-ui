@@ -37,6 +37,7 @@ import '@material/web/checkbox/checkbox.js';
 // import '@ionic/vue/css/palettes/dark.system.css';
 
 /* Theme variables */
+import './theme/global.css';
 import './theme/variables.css';
 import i18n from './i18n'
 
