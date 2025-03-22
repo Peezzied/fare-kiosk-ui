@@ -12,10 +12,13 @@ http://ionicframework.com/docs/theming/ */
 
 
 :root {
+    --ion-background-color: #f5fafc;
     --ion-color-primary: #0097b2;
     --ion-color-secondary: #18375d;
     --ion-color-tertiary-1: #f06356;
     --ion-color-tertiary-2: #d6f056;
+    --ion-color-tertiary-1-variant: #ff3131;
+    --ion-color-tertiary-2-variant: #b7da09;
 
     
 }
@@ -23,8 +26,15 @@ http://ionicframework.com/docs/theming/ */
 .ion-color-tertiary-1 {
 	--ion-color-base: var(--ion-color-tertiary-1);
 }
+.ion-color-tertiary-1-variant {
+    --ion-color-base: var(--ion-color-tertiary-1-variant);
+}
+
 .ion-color-tertiary-2 {
 	--ion-color-base: var(--ion-color-tertiary-2);
+}
+.ion-color-tertiary-2-variant {
+    --ion-color-base: var(--ion-color-tertiary-2-variant);
 }
 
 

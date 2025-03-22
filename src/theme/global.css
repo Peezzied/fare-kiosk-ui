@@ -2,10 +2,13 @@ html {
     font-size: 16px;
 }
 
-h1, h2, p {
+h1, h2, p, span, ion-title {
     color: var(--ion-color-base);
 }
 
+.text-mont {
+    font-family: "Display";
+}
 
 .text-display {
     font-family: "Display";
@@ -16,9 +19,16 @@ h1, h2, p {
     font-family: "Body";
 }
 
-.text-body-italic {
-    font-family: 'Body';
+.text-bold {
+    font-weight: bold;
+}
+
+.text-italic {
     font-style: italic;
+}
+
+.text-medium {
+    font-weight: 600;
 }
 
 .text-xs { font-size: 0.625rem; }  /* 10px */
@@ -33,3 +43,27 @@ h1, h2, p {
 .text-5xl { font-size: 3.8125rem; } /* 61px */
 .text-6xl { font-size: 4.75rem; }   /* 76px */
 .text-7xl { font-size: 5.9375rem; } /* 95px */
+
+.text-black { color: #5a690f; }
+.text-white { color: rgba(255, 255, 255, 0.88); }
+
+.shadow {
+    text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-1 {
+    text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.03);
+}
+
+.space-y {
+	margin: 1.5em 0px;
+}
+
+.space-b {
+	margin-bottom: 1.5em;
+}
+
+.space-t {
+	margin-top: 1.5em;
+}
+

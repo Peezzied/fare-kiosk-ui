@@ -1,6 +1,6 @@
 export default {
     en: {
-        display: "Malinta to Novaliches Modern Jeepney Transport Service",
+        display: "Malinta to Novaliches Modern Jeepney Transport Service Kiosk",
         origin: "Select your origin",
         destination: "Select your destination",
         route: "Destination",
@@ -8,8 +8,8 @@ export default {
         thanks: "Payment Successful! Thank you for using our service! Safe Travels!"
     },
 
-    ar: {
-        display: "Malinta to Novaliches Modern Jeepney Transport Service",
+    fil: {
+        display: "Malinta to Novaliches Modern Jeepney Transport Service Kiosk",
         origin: "Piliin ang iyong pinagmulan",
         destination: "Piliin ang iyong paroroonan",
         route: "Ruta",
