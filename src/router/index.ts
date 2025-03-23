@@ -9,23 +9,15 @@ const routes: Array<RouteRecordRaw> = [
   //default routes
   {
     path: "/",
-    redirect: "/en/home",
-  },
-  {
-    path: "/home",
-    redirect: "/en/home",
-  },
-  {
-    path: "/origin",
-    redirect: "/en/origin",
+    redirect: "/home",
   },
 
   
   {
-    path: "/:lang/home",
+    path: "/:lang?/home",
     name: "home",
     component: HomePage,
-    props: true, 
+    // props: true, 
   },
   {
     path: "/:lang/origin",
@@ -42,13 +34,13 @@ const router = createRouter({
 
 type SupportedLocale = keyof typeof i18n.global.messages.value; 
 router.beforeEach((to, from, next) => {
-  const supportedLocales = Object.keys(i18n.global.messages.value) as SupportedLocale[];
+  // const supportedLocales = Object.keys(i18n.global.messages.value) as SupportedLocale[];
   const lang = to.params.lang as string;
 
   // If lang is not valid, redirect to default `/en/home`
-  if (!supportedLocales.includes(lang as SupportedLocale)) {
-    return next("/en/home");
-  }
+  // if (!supportedLocales.includes(lang as SupportedLocale)) {
+  //   return next("/en/home");
+  // }
 
   if (i18n.global.locale.value !== lang) {
     i18n.global.locale.value = lang as SupportedLocale;

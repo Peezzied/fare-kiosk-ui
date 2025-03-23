@@ -20,6 +20,9 @@ import { chevronBackSharp, chevronForwardSharp } from "ionicons/icons";
 import { getLastWord, removeLastWord } from "@/utils/lastWord";
 import places from "@/data/places.json";
 import { routeType } from "@/utils/routeType";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 defineProps<{
 	selectionType: routeType,
@@ -32,7 +35,7 @@ defineProps<{
 			<ion-toolbar>
 				<ion-title
 					class="space-t ion-text-center ion-color-primary text-display ion-text-uppercase text-2xl shadow-1"
-					>{{ $t("display") }}</ion-title
+					>{{ removeLastWord($t("display")) }}</ion-title
 				>
 			</ion-toolbar>
 		</ion-header>
@@ -108,6 +111,7 @@ defineProps<{
 								class="text-7xl"
 								color="secondary"
 								:icon="chevronBackSharp"
+								@click="router.back()"
 							></ion-icon>
 							<ion-ripple-effect></ion-ripple-effect>
 						</div>

@@ -1,5 +1,5 @@
 <template>
-    <SelectionComp selectionType="destination"/>
+    <SelectionComp selectionType="origin"/>
 </template>
 
 <script setup lang="ts">

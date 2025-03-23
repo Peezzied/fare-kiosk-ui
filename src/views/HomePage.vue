@@ -49,19 +49,16 @@ import {
 	IonCol,
 	IonButton,
 } from "@ionic/vue";
-import { computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
+
+import { useRouter } from "vue-router";
 
 
 const router = useRouter();
-const route = useRoute();
 
 type SupportedLocale = keyof typeof i18n.global.messages.value; 
-const currentLang = computed(() => route.params.lang as SupportedLocale);
+// const currentLang = computed(() => route.params.lang as SupportedLocale);
 const changeLanguage = (lang: SupportedLocale) => {
-	if (lang !== currentLang.value) {
-		router.push({ name: 'origin', params: { lang } });
-	}
+	router.push({ name: 'origin', params: { lang } });
 	console.log(lang)
 };
 
