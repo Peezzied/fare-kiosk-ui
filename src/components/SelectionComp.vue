@@ -1,7 +1,4 @@
-	
-
 <script setup lang="ts">
-
 import {
 	IonPage,
 	IonContent,
@@ -16,17 +13,41 @@ import {
 	IonTitle,
 	IonFooter,
 } from "@ionic/vue";
-import { chevronBackSharp, chevronForwardSharp } from "ionicons/icons";
+import {
+	chevronBackSharp,
+	chevronForwardSharp,
+	locationSharp,
+} from "ionicons/icons";
 import { getLastWord, removeLastWord } from "@/utils/lastWord";
 import places from "@/data/places.json";
 import { routeType } from "@/utils/routeType";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import ToasterComp from "./ToasterComp.vue";
 
 const router = useRouter();
+const route = useRoute();
 
-defineProps<{
-	selectionType: routeType,
-}>()
+const props = defineProps<{
+	selectionType: routeType;
+	to: string;
+}>();
+
+const selectLocation = (loc: string) => {
+	switch (props.selectionType) {
+		case "origin":
+			router.push({ name: props.to, query: { origin: loc } });
+			break;
+
+		case "destination":
+			if (route.query.origin != loc) {
+				router.push({
+					name: props.to,
+					query: { ...route.query, destination: loc },
+				});
+			}
+			break;
+	}
+};
 </script>
 
 <template>
@@ -56,25 +77,50 @@ defineProps<{
 							<h2
 								class="text-5xl text-body text-medium text-italic ion-color-secondary shadow-1"
 							>
-								{{ removeLastWord($t("origin")) }}
-								<span :class="['text-bold', selectionType == 'origin' ? 'ion-color-tertiary-1-variant' : 'ion-color-tertiary-2-variant']">
-									{{ getLastWord($t("origin")) }}</span
+								{{ removeLastWord($t(selectionType)) }}
+								<span
+									:class="[
+										'text-bold',
+										selectionType == 'origin'
+											? 'ion-color-tertiary-1-variant'
+											: 'ion-color-tertiary-2-variant',
+									]"
+								>
+									{{ getLastWord($t(selectionType)) }}</span
 								>.
 							</h2>
-							<h2 class="text-xl text-body">
-								<span>LOREM</span>
-								<span> TO </span>
-								<span>IPSUM</span>
+							<h2
+								class="text-2xl text-body location ion-color-secondary"
+								v-if="route.query.origin"
+							>
+								<ion-icon
+									:icon="locationSharp"
+									color="tertiary-1-variant"
+									class="text-4xl"
+								></ion-icon>
+								<span>{{ route.query.origin }}</span>
+								<!-- <span> TO </span>
+								<span>{{route.query.destination}}</span> -->
 							</h2>
 						</div>
 						<div class="button-container">
 							<ion-button
-								:color="selectionType == 'origin' ? 'tertiary-1' : 'tertiary-2'"
+								:color="
+									selectionType == 'origin'
+										? 'tertiary-1'
+										: 'tertiary-2'
+								"
 								v-for="(poi, index) in places"
 								:key="index"
 								shape="round"
 								size="small"
-								:class="['text-2xl custom-button text-mont', selectionType == 'origin' ? 'text-white': 'text-black']"
+								:class="[
+									'text-2xl custom-button text-mont',
+									selectionType == 'origin'
+										? 'text-white'
+										: 'text-black',
+								]"
+								@click="selectLocation(poi.name)"
 								>{{ poi.name }}</ion-button
 							>
 						</div>
@@ -120,6 +166,7 @@ defineProps<{
 								class="text-7xl"
 								color="secondary"
 								:icon="chevronForwardSharp"
+								@click="router.push(to)"
 							></ion-icon>
 							<ion-ripple-effect></ion-ripple-effect>
 						</div>
@@ -174,5 +221,10 @@ defineProps<{
 	/* width: 90px; */
 	/* height: 90px; */
 	border-radius: 50%;
+}
+.location {
+	display: flex;
+	align-items: center;
+	gap: 5px;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <ion-app>
-    <ion-router-outlet />
+    <ToastProvider>
+      <ion-router-outlet />
+    </ToastProvider>
   </ion-app>
 </template>
 

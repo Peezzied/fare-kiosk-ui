@@ -19,7 +19,8 @@
 						<div class="flex space-y">
 							<div
 								v-for="(lang, index) in languages"
-								:key="index">
+								:key="index"
+							>
 								<ion-button
 									color="secondary"
 									shape="round"
@@ -27,7 +28,7 @@
 									expand="block"
 									class="text-mont text-3xl"
 									@click="changeLanguage(lang.code)"
-									style="min-width: 400px;"
+									style="min-width: 400px"
 									>{{ lang.lang }}</ion-button
 								>
 							</div>
@@ -52,29 +53,33 @@ import {
 
 import { useRouter } from "vue-router";
 
-
 const router = useRouter();
 
-type SupportedLocale = keyof typeof i18n.global.messages.value; 
+type SupportedLocale = keyof typeof i18n.global.messages.value;
 // const currentLang = computed(() => route.params.lang as SupportedLocale);
 const changeLanguage = (lang: SupportedLocale) => {
-	router.push({ name: 'origin', params: { lang } });
-	console.log(lang)
+	router.push({
+		name: "origin",
+		params: { lang },
+	});
+	// console.log(lang)
 };
 
-interface locale { lang: string; code: SupportedLocale}
+interface locale {
+	lang: string;
+	code: SupportedLocale;
+}
 
 const languages: locale[] = [
 	{
 		lang: "English",
-		code: 'en'
+		code: "en",
 	},
 	{
 		lang: "Filipino",
-		code: 'fil'
+		code: "fil",
 	},
 ];
-
 </script>
 
 <style scoped>
@@ -99,6 +104,4 @@ h1 {
 	align-content: center; /* Centers vertically */
 	height: 100vh;
 }
-
-
 </style>
