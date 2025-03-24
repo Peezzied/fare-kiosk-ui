@@ -24,6 +24,11 @@ import { routeType } from "@/utils/routeType";
 import { useRoute, useRouter } from "vue-router";
 import ToasterComp from "./ToasterComp.vue";
 
+import FooterComp from "./FooterComp.vue";
+import HeaderComp from "./HeaderComp.vue";
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+
 const router = useRouter();
 const route = useRoute();
 
@@ -48,18 +53,14 @@ const selectLocation = (loc: string) => {
 			break;
 	}
 };
+
+
 </script>
+
 
 <template>
 	<ion-page>
-		<ion-header class="ion-no-border">
-			<ion-toolbar>
-				<ion-title
-					class="space-t ion-text-center ion-color-primary text-display ion-text-uppercase text-2xl shadow-1"
-					>{{ removeLastWord($t("display")) }}</ion-title
-				>
-			</ion-toolbar>
-		</ion-header>
+		<header-comp></header-comp>
 		<ion-content :fullscreen="true">
 			<ion-grid class="">
 				<!-- <ion-row class="ion-justify-content-center ion-text-center">
@@ -79,6 +80,7 @@ const selectLocation = (loc: string) => {
 							>
 								{{ removeLastWord($t(selectionType)) }}
 								<span
+									style="font-style: normal;"
 									:class="[
 										'text-bold',
 										selectionType == 'origin'
@@ -90,7 +92,7 @@ const selectLocation = (loc: string) => {
 								>.
 							</h2>
 							<h2
-								class="text-2xl text-body location ion-color-secondary"
+								class="text-2xl text-mont text-medium location ion-color-secondary"
 								v-if="route.query.origin"
 							>
 								<ion-icon
@@ -114,6 +116,7 @@ const selectLocation = (loc: string) => {
 								:key="index"
 								shape="round"
 								size="small"
+								style="letter-spacing: 0.3px;"
 								:class="[
 									'text-2xl custom-button text-mont',
 									selectionType == 'origin'
@@ -148,32 +151,7 @@ const selectLocation = (loc: string) => {
 				</ion-row> -->
 			</ion-grid>
 		</ion-content>
-		<ion-footer class="ion-no-border">
-			<ion-toolbar>
-				<ion-row class="ion-justify-content-center">
-					<ion-col size="11" class="navigation space-b">
-						<div class="ion-activatable ripple-parent circle">
-							<ion-icon
-								class="text-7xl"
-								color="secondary"
-								:icon="chevronBackSharp"
-								@click="router.back()"
-							></ion-icon>
-							<ion-ripple-effect></ion-ripple-effect>
-						</div>
-						<div class="ion-activatable ripple-parent circle">
-							<ion-icon
-								class="text-7xl"
-								color="secondary"
-								:icon="chevronForwardSharp"
-								@click="router.push(to)"
-							></ion-icon>
-							<ion-ripple-effect></ion-ripple-effect>
-						</div>
-					</ion-col>
-				</ion-row>
-			</ion-toolbar>
-		</ion-footer>
+		<footer-comp :to="to"></footer-comp>
 	</ion-page>
 </template>
 
@@ -201,27 +179,13 @@ const selectLocation = (loc: string) => {
 	justify-content: center;
 	text-align: center;
 }
-.navigation {
-	display: flex;
-	justify-content: space-between;
-}
+
 .info {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
-.ripple-parent {
-	position: relative;
-	overflow: hidden;
-	display: flex;
-	padding: 12px;
-	/* border: 1px solid #ddd; */
-}
-.circle {
-	/* width: 90px; */
-	/* height: 90px; */
-	border-radius: 50%;
-}
+
 .location {
 	display: flex;
 	align-items: center;

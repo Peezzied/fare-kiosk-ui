@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from "@ionic/vue-router";
 import { RouteRecordRaw } from "vue-router";
 import HomePage from "../views/HomePage.vue";
-import OriginPage from "@/views/OriginPage.vue";
 import i18n from "@/i18n";
-import RouteSelection from "@/views/RouteSelection.vue";
 import SelectionComp from "@/components/SelectionComp.vue";
 import GatewayPage from "@/views/GatewayPage.vue";
 
