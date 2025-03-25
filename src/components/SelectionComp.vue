@@ -8,9 +8,7 @@ import {
 	IonButton,
 	IonIcon,
 } from "@ionic/vue";
-import {
-	locationSharp,
-} from "ionicons/icons";
+import { locationSharp } from "ionicons/icons";
 import { getLastWord, removeLastWord } from "@/utils/lastWord";
 import places from "@/data/places.json";
 import { routeType } from "@/utils/routeType";
@@ -23,7 +21,7 @@ import { onMounted, ref } from "vue";
 const router = useRouter();
 const route = useRoute();
 
-const optionStart = ref<number>()
+const optionStart = ref<number>();
 
 const props = defineProps<{
 	selectionType: routeType;
@@ -36,27 +34,26 @@ const selectLocation = (loc: string) => {
 			router.push({ name: props.to, query: { origin: loc } });
 			break;
 
-		case "destination":
-			if (route.query.origin !== loc) {
-				router.push({
-					name: props.to,
-					query: { ...route.query, destination: loc,  },
-				});
-			}
+		case "destination":{
+			const passenger = route.query.passenger || 'regular'
+			router.push({
+				name: props.to,
+				query: { ...route.query, destination: loc, passenger: passenger },
+			});
+
 			break;
+		}
 	}
 };
 
 onMounted(() => {
-	if ((props.selectionType == "destination") && route.query.origin) {
-		optionStart.value = places.findIndex(item => item.name === route.query.origin) 
+	if (props.selectionType == "destination" && route.query.origin) {
+		optionStart.value = places.findIndex(
+			(item) => item.name === route.query.origin
+		);
 	}
-})
-
-
-
+});
 </script>
-
 
 <template>
 	<ion-page>
@@ -80,7 +77,7 @@ onMounted(() => {
 							>
 								{{ removeLastWord($t(selectionType)) }}
 								<span
-									style="font-style: normal;"
+									style="font-style: normal"
 									:class="[
 										'text-bold',
 										selectionType == 'origin'
@@ -113,11 +110,15 @@ onMounted(() => {
 										: 'tertiary-2'
 								"
 								v-for="(poi, index) in places"
-								:disabled="optionStart !== undefined ? index <= optionStart : false"
+								:disabled="
+									optionStart !== undefined
+										? index <= optionStart
+										: false
+								"
 								:key="index"
 								shape="round"
 								size="small"
-								style="letter-spacing: 0.3px;"
+								style="letter-spacing: 0.3px"
 								:class="[
 									'text-2xl custom-button text-mont',
 									selectionType == 'origin'
