@@ -43,6 +43,7 @@ h1, h2, p, span, ion-title {
 .text-5xl { font-size: 3.8125rem; } /* 61px */
 .text-6xl { font-size: 4.75rem; }   /* 76px */
 .text-7xl { font-size: 5.9375rem; } /* 95px */
+.text-Xxl { font-size: 7.438rem; } 
 
 .text-black { color: #5a690f; }
 .text-white { color: rgba(255, 255, 255, 0.88); }

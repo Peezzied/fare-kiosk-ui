@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { chevronBackSharp, chevronForwardSharp } from 'ionicons/icons';
-import { useRouter } from 'vue-router';
-import { IonFooter, IonToolbar, IonRow, IonCol, IonRippleEffect, IonIcon } from '@ionic/vue';
+import { chevronBackSharp, chevronForwardSharp } from "ionicons/icons";
+import { Router, useRouter } from "vue-router";
+import {
+	IonFooter,
+	IonToolbar,
+	IonRow,
+	IonCol,
+	IonRippleEffect,
+	IonIcon,
+} from "@ionic/vue";
 
-const router = useRouter()
+const router = useRouter();
 
 defineProps<{
-    to: string
-}>()
+	to: (to: Router) => void;
+}>();
+
 </script>
 
 <template>
@@ -29,7 +37,7 @@ defineProps<{
 							class="text-7xl"
 							color="secondary"
 							:icon="chevronForwardSharp"
-							@click="router.push(to)"
+							@click="to(router)"
 						></ion-icon>
 						<ion-ripple-effect></ion-ripple-effect>
 					</div>

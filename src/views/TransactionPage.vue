@@ -62,7 +62,19 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 	});
 };
 
+const preloadImages = (imageArray: string[]) => {
+	imageArray.forEach((src) => {
+		const img = new Image();
+		img.src = src;
+	});
+};
 
+onMounted(() => {
+	preloadImages([
+		new URL("@/assets/images/insert-coin.png", import.meta.url).href,
+		new URL("@/assets/images/insert-bill.png", import.meta.url).href,
+	]);
+});
 </script>
 
 <template>
@@ -75,10 +87,10 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 					<ion-col size="11" class="space-y details">
 						<div class="text-mont text-medium ion-color-secondary">
 							<ion-badge
-								class="text-mont text-bold text-xl ion-text-uppercase"
+								class="text-mont text-bold text-2xl ion-text-uppercase"
 								>{{ selectedPassenger?.type }}</ion-badge
 							>
-							<div class="text-7xl" style="line-height: 1.2">
+							<div class="text-Xxl" style="line-height: 1.2">
 								<span class="muted">Total Fare: </span
 								><span>₱{{}}</span>
 							</div>
@@ -94,7 +106,7 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 									class="text-6xl"
 								/><span>{{ route.query.origin }}</span>
 							</span>
-							<span style="opacity: 0.85"> to </span>
+							<span style="opacity: .85;"> to </span>
 							<span class="inline text-bold text-mont">
 								<ion-icon
 									:icon="locationSharp"
@@ -109,29 +121,12 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 				</ion-row>
 				<ion-row class="ion-justify-content-center">
 					<ion-col size="11" class="space-y">
-						<h1
-							class="text-body ion-color-secondary text-4xl text-medium"
-						>
-							Select Passenger:
-						</h1>
-						<div class="passengers" style="margin-top: 1.5em">
-							<ion-button
-								color="secondary"
-								shape="round"
-								size="large"
-								style="letter-spacing: 0.5px"
-								v-for="(i, index) in passenger"
-								:class="[
-									'text-mont text-2xl border',
-									i.discount == route.query.passenger
-										? 'border-sel'
-										: '',
-								]"
-								:key="index"
-								@click="updatePassenger(i.discount)"
-							>
-								{{ i.type }}
-							</ion-button>
+                        <div class="img-container space-y">
+                            <img src="@/assets/images/insert-coin.png" alt="" />
+                            <p class="text-2xl ion-text-center instruction text-mont text-medium ion-color-secondary flicker">
+                                {{$t('transaction')}}
+                            </p>
+							<img src="@/assets/images/insert-bill.png" alt="" />
 						</div>
 					</ion-col>
 				</ion-row>
@@ -141,7 +136,7 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 			:to="
 				(r) => {
 					console.log(route.query);
-					r.push({ name: 'transaction', query: { ...route.query } });
+					r.push({ name: 'complete', query: { ...route.query } });
 				}
 			"
 		></footer-comp>
@@ -190,7 +185,40 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 	--border-style: solid;
 	--border-width: 5px;
 	border-radius: 10em;
-	box-shadow: 0 0 20px -6px var(--ion-color-primary);
+	box-shadow: 0 0 20px -2px var(--ion-color-primary);
 	transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.img-container {
+	display: flex;
+	justify-content: center; /* Center images horizontally */
+	align-items: center; /* Align images vertically */
+    gap: 4em;
+    flex-direction: row;
+	flex-wrap: nowrap; 
+}
+
+.img-container img {
+    height: 250px; /* Set a fixed height */
+	width: auto; /* Maintain aspect ratio */
+	object-fit: cover; /* Prevent distortion */
+}
+
+.img-container img:last-of-type {
+    transform: scale(1.4);
+}
+
+.instruction {
+    max-width: 14em;
+}
+@keyframes flicker {
+  0% { opacity: 1; }
+  /* 25% { opacity: 0.6; } */
+  50% { opacity: 0.2; filter: brightness(0); }
+  /* 75% { opacity: 0.8; } */
+  100% { opacity: 1; }
+}
+
+.flicker {
+  animation: flicker 1.4s infinite;
 }
 </style>

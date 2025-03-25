@@ -153,7 +153,9 @@ onMounted(() => {
 				</ion-row> -->
 			</ion-grid>
 		</ion-content>
-		<footer-comp :to="to"></footer-comp>
+		<footer-comp :to="(r)=>{
+			r.push(to)
+		}"></footer-comp>
 	</ion-page>
 </template>
 
