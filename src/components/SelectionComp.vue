@@ -7,30 +7,23 @@ import {
 	IonRow,
 	IonButton,
 	IonIcon,
-	IonRippleEffect,
-	IonHeader,
-	IonToolbar,
-	IonTitle,
-	IonFooter,
 } from "@ionic/vue";
 import {
-	chevronBackSharp,
-	chevronForwardSharp,
 	locationSharp,
 } from "ionicons/icons";
 import { getLastWord, removeLastWord } from "@/utils/lastWord";
 import places from "@/data/places.json";
 import { routeType } from "@/utils/routeType";
 import { useRoute, useRouter } from "vue-router";
-import ToasterComp from "./ToasterComp.vue";
 
 import FooterComp from "./FooterComp.vue";
 import HeaderComp from "./HeaderComp.vue";
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
+import { onMounted, ref } from "vue";
 
 const router = useRouter();
 const route = useRoute();
+
+const optionStart = ref<number>()
 
 const props = defineProps<{
 	selectionType: routeType;
@@ -44,15 +37,22 @@ const selectLocation = (loc: string) => {
 			break;
 
 		case "destination":
-			if (route.query.origin != loc) {
+			if (route.query.origin !== loc) {
 				router.push({
 					name: props.to,
-					query: { ...route.query, destination: loc },
+					query: { ...route.query, destination: loc,  },
 				});
 			}
 			break;
 	}
 };
+
+onMounted(() => {
+	if ((props.selectionType == "destination") && route.query.origin) {
+		optionStart.value = places.findIndex(item => item.name === route.query.origin) 
+	}
+})
+
 
 
 </script>
@@ -113,6 +113,7 @@ const selectLocation = (loc: string) => {
 										: 'tertiary-2'
 								"
 								v-for="(poi, index) in places"
+								:disabled="optionStart !== undefined ? index <= optionStart : false"
 								:key="index"
 								shape="round"
 								size="small"

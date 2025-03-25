@@ -48,7 +48,8 @@ const routes: Array<RouteRecordRaw> = [
 		component: GatewayPage,
 		beforeEnter: (to) => {
 			if(!to.query.destination) { return false}
-		}
+		},
+		
 	}
 ];
 
