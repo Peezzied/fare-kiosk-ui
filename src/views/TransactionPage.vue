@@ -14,13 +14,13 @@ import { locationSharp } from "ionicons/icons";
 
 import FooterComp from "@/components/FooterComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import coinImg from "@/assets/images/insert-coin.png"
-import billImg from "@/assets/images/insert-bill.png"
-// const props = defineProps<
+import coinImg from "@/assets/images/insert-coin.png";
+import billImg from "@/assets/images/insert-bill.png";
+import { useSound } from "@vueuse/sound";
+import exitSound from "@/assets/sounds/kansel.wav";
 
-// >()
 enum passengerOptions {
 	regular,
 	senior,
@@ -35,6 +35,7 @@ interface PassengerOptions {
 const route = useRoute();
 const router = useRouter();
 const i18n = useI18n();
+// const { play } = useSound(exitSound, {volume: .5});
 const passenger: PassengerOptions[] = [
 	{
 		type: i18n.t("regular"),
@@ -57,16 +58,15 @@ const passenger: PassengerOptions[] = [
 const selectedPassenger = computed(() => {
 	return passenger.find((p) => p.discount === route.query.passenger);
 });
-
 </script>
 
 <template>
 	<ion-page>
 		<header-comp></header-comp>
 		<ion-content :fullscreen="true">
-			<ion-grid class=" grid-container">
+			<ion-grid class="grid-container">
 				<!-- destination -->
-				<ion-row >
+				<ion-row>
 					<ion-col size="11" class="space-y details">
 						<div class="text-mont text-medium ion-color-secondary">
 							<ion-badge
@@ -135,7 +135,15 @@ const selectedPassenger = computed(() => {
 			"
 			:disabled="true"
 		>
-			<ion-button @click="router.push('/')" color="warning" shape="round" fill="outline" size="large" class="text-2xl text-mont text-medium cancel-btn">Cancel transaction</ion-button>
+			<ion-button
+				router-link="/en"
+				color="warning"
+				shape="round"
+				fill="outline"
+				size="large"
+				class="text-2xl text-mont text-medium cancel-btn"
+				>Cancel transaction</ion-button
+			>
 		</footer-comp>
 	</ion-page>
 </template>

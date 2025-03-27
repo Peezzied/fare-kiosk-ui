@@ -2,7 +2,7 @@
 	<div class="step-indicator">
 		<div
 			v-for="step in steps"
-			:key="step.step"
+			:key="step.path"
 			class="step"
 			:class="{ active: step.step === currentStep }"
 		>

@@ -7,21 +7,19 @@ import {
 	IonRow,
 	IonButton,
 	IonIcon,
-	useIonRouter,
-	
 } from "@ionic/vue";
 import { locationSharp } from "ionicons/icons";
 import { getLastWord, removeLastWord } from "@/utils/lastWord";
 import places from "@/data/places.json";
 import { routeType } from "@/utils/routeType";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import FooterComp from "./FooterComp.vue";
 import HeaderComp from "./HeaderComp.vue";
 import { onMounted, ref } from "vue";
 import StepIndicator from "./StepIndicator.vue";
 
-const router = useIonRouter();
+const router = useRouter();
 const route = useRoute();
 
 const optionStart = ref<number>();
@@ -58,6 +56,7 @@ onMounted(() => {
 		optionStart.value = places.findIndex(
 			(item) => item.name === route.query.origin
 		);
+		console.log("selected", optionStart.value);
 	}
 });
 </script>
@@ -170,7 +169,9 @@ onMounted(() => {
 				}
 			"
 			:disabled="true"
-		><step-indicator></step-indicator></footer-comp>
+		>
+			<!-- <step-indicator></step-indicator> -->
+		</footer-comp>
 	</ion-page>
 </template>
 

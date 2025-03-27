@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package kiosk.fare.ui;
 
 import com.getcapacitor.BridgeActivity;
 

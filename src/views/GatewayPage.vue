@@ -15,13 +15,14 @@ import { locationSharp } from "ionicons/icons";
 import FooterComp from "@/components/FooterComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
 import StepIndicator from "@/components/StepIndicator.vue";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import places from "@/data/places.json";
 import prices from "@/data/price_params.json";
-// const props = defineProps<
+import { useSound } from "@vueuse/sound";
+import enterSound from "@/assets/sounds/enter.wav";
 
-// >()
+const { play } = useSound(enterSound, { volume: 0.5 });		
 enum passengerOptions {
 	regular,
 	senior,
@@ -59,7 +60,6 @@ const selectedPassenger = computed(() => {
 	return passenger.find((p) => p.discount === route.query.passenger);
 });
 
-const farePrice = ref<number>(0);
 const priceCalc = (passenger: keyof typeof passengerOptions): number => {
 	const origin = places.find((o) => o.name === route.query.origin) ?? {
 		distance_km: 0,
@@ -93,7 +93,11 @@ const priceCalc = (passenger: keyof typeof passengerOptions): number => {
 
 const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 	router.replace({
-		query: { ...route.query, passenger: passengerType, fare: priceCalc(passengerType) }, // Call priceCalc()
+		query: {
+			...route.query,
+			passenger: passengerType,
+			fare: priceCalc(passengerType),
+		}, // Call priceCalc()
 	});
 };
 
@@ -168,9 +172,9 @@ onMounted(() => {
 								style="letter-spacing: 0.5px"
 								v-for="(i, index) in passenger"
 								:class="[
-									'text-mont text-2xl border',
+									'text-mont text-2xl',
 									i.discount == route.query.passenger
-										? 'border-sel'
+										? 'ion-color-warning text-medium border-sel'
 										: '',
 								]"
 								:key="index"
@@ -186,12 +190,15 @@ onMounted(() => {
 		<footer-comp
 			:to="
 				(r) => {
+					play();
+
 					console.log(route.query);
 					r.push({ name: 'transaction', query: { ...route.query } });
 				}
 			"
-			><step-indicator></step-indicator
-		></footer-comp>
+		>
+			<!-- <step-indicator></step-indicator> -->
+		</footer-comp>
 	</ion-page>
 </template>
 
@@ -236,13 +243,13 @@ onMounted(() => {
 .border {
 	--border-color: var(--ion-color-base);
 	--border-style: solid;
-	--border-width: .5rem;
+	--border-width: 0.5rem;
 	--box-shadow: 0;
 }
 .border-sel {
 	--border-color: var(--ion-color-warning);
 	--border-style: solid;
-	--border-width: .5rem;
+	--border-width: 0.5rem;
 	border-radius: 10em;
 	box-shadow: 0 0 20px -11px var(--ion-color-warning);
 	transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
