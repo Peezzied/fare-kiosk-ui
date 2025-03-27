@@ -7,6 +7,8 @@ import {
 	IonRow,
 	IonButton,
 	IonIcon,
+	useIonRouter,
+	
 } from "@ionic/vue";
 import { locationSharp } from "ionicons/icons";
 import { getLastWord, removeLastWord } from "@/utils/lastWord";
@@ -17,8 +19,9 @@ import { useRoute, useRouter } from "vue-router";
 import FooterComp from "./FooterComp.vue";
 import HeaderComp from "./HeaderComp.vue";
 import { onMounted, ref } from "vue";
+import StepIndicator from "./StepIndicator.vue";
 
-const router = useRouter();
+const router = useIonRouter();
 const route = useRoute();
 
 const optionStart = ref<number>();
@@ -34,11 +37,15 @@ const selectLocation = (loc: string) => {
 			router.push({ name: props.to, query: { origin: loc } });
 			break;
 
-		case "destination":{
-			const passenger = route.query.passenger || 'regular'
+		case "destination": {
+			const passenger = route.query.passenger || "regular";
 			router.push({
 				name: props.to,
-				query: { ...route.query, destination: loc, passenger: passenger },
+				query: {
+					...route.query,
+					destination: loc,
+					passenger: passenger,
+				},
 			});
 
 			break;
@@ -111,9 +118,12 @@ onMounted(() => {
 								"
 								v-for="(poi, index) in places"
 								:disabled="
-									optionStart !== undefined
+									(optionStart !== undefined
 										? index <= optionStart
-										: false
+										: false) ||
+									(selectionType === 'origin'
+										? index == places.length - 1
+										: false)
 								"
 								:key="index"
 								shape="round"
@@ -153,9 +163,14 @@ onMounted(() => {
 				</ion-row> -->
 			</ion-grid>
 		</ion-content>
-		<footer-comp :to="(r)=>{
-			r.push(to)
-		}"></footer-comp>
+		<footer-comp
+			:to="
+				(r) => {
+					r.push(to);
+				}
+			"
+			:disabled="true"
+		><step-indicator></step-indicator></footer-comp>
 	</ion-page>
 </template>
 

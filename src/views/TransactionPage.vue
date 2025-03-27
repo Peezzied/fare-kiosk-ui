@@ -56,12 +56,6 @@ const selectedPassenger = computed(() => {
 	return passenger.find((p) => p.discount === route.query.passenger);
 });
 
-const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
-	router.replace({
-		query: { ...route.query, passenger: passengerType },
-	});
-};
-
 const preloadImages = (imageArray: string[]) => {
 	imageArray.forEach((src) => {
 		const img = new Image();
@@ -88,6 +82,7 @@ onMounted(() => {
 						<div class="text-mont text-medium ion-color-secondary">
 							<ion-badge
 								class="text-mont text-bold text-2xl ion-text-uppercase"
+								style="background-color: #1b83de"
 								>{{ selectedPassenger?.type }}</ion-badge
 							>
 							<div class="text-Xxl" style="line-height: 1.2">
@@ -106,7 +101,7 @@ onMounted(() => {
 									class="text-6xl"
 								/><span>{{ route.query.origin }}</span>
 							</span>
-							<span style="opacity: .85;"> to </span>
+							<span style="opacity: 0.85"> to </span>
 							<span class="inline text-bold text-mont">
 								<ion-icon
 									:icon="locationSharp"
@@ -121,11 +116,13 @@ onMounted(() => {
 				</ion-row>
 				<ion-row class="ion-justify-content-center">
 					<ion-col size="11" class="space-y">
-                        <div class="img-container space-y">
-                            <img src="@/assets/images/insert-coin.png" alt="" />
-                            <p class="text-2xl ion-text-center instruction text-mont text-medium ion-color-secondary flicker">
-                                {{$t('transaction')}}
-                            </p>
+						<div class="img-container space-y">
+							<img src="@/assets/images/insert-coin.png" alt="" />
+							<p
+								class="text-2xl ion-text-center instruction text-mont text-medium ion-color-secondary flicker"
+							>
+								{{ $t("transaction") }}
+							</p>
 							<img src="@/assets/images/insert-bill.png" alt="" />
 						</div>
 					</ion-col>
@@ -139,7 +136,10 @@ onMounted(() => {
 					r.push({ name: 'complete', query: { ...route.query } });
 				}
 			"
-		></footer-comp>
+			:disabled="true"
+		>
+			<ion-button @click="router.push('/')" color="warning" shape="round" fill="outline" size="large" class="text-2xl text-mont text-medium cancel-btn">Cancel transaction</ion-button>
+		</footer-comp>
 	</ion-page>
 </template>
 
@@ -181,7 +181,7 @@ onMounted(() => {
 	--border-width: 5px;
 }
 .border-sel {
-	--border-color: var(--ion-color-primary);
+	--border-color: #1b83de;
 	--border-style: solid;
 	--border-width: 5px;
 	border-radius: 10em;
@@ -192,33 +192,47 @@ onMounted(() => {
 	display: flex;
 	justify-content: center; /* Center images horizontally */
 	align-items: center; /* Align images vertically */
-    gap: 4em;
-    flex-direction: row;
-	flex-wrap: nowrap; 
+	gap: 4em;
+	flex-direction: row;
+	flex-wrap: nowrap;
 }
 
 .img-container img {
-    height: 250px; /* Set a fixed height */
+	height: 250px; /* Set a fixed height */
 	width: auto; /* Maintain aspect ratio */
 	object-fit: cover; /* Prevent distortion */
 }
 
 .img-container img:last-of-type {
-    transform: scale(1.4);
+	transform: scale(1.4);
 }
 
 .instruction {
-    max-width: 14em;
+	max-width: 14em;
 }
 @keyframes flicker {
-  0% { opacity: 1; }
-  /* 25% { opacity: 0.6; } */
-  50% { opacity: 0.2; filter: brightness(0); }
-  /* 75% { opacity: 0.8; } */
-  100% { opacity: 1; }
+	0% {
+		opacity: 1;
+	}
+	/* 25% { opacity: 0.6; } */
+	50% {
+		opacity: 0.2;
+		filter: brightness(0);
+	}
+	/* 75% { opacity: 0.8; } */
+	100% {
+		opacity: 1;
+	}
 }
 
 .flicker {
-  animation: flicker 1.4s infinite;
+	animation: flicker 1.4s infinite;
+}
+.cancel-btn {
+	--border-width: 4px;
+	--ion-color-primary: #1b83de;
+	--padding-inline: 3em;
+	--padding-start: var(--padding-inline);
+	--padding-end: var(--padding-inline);
 }
 </style>

@@ -28,6 +28,7 @@ const routes: Array<RouteRecordRaw> = [
 				name: "origin",
 				component: SelectionComp,
 				props: { selectionType: "origin", to: "destination" },
+				meta: {step: 1}
 			},
 			{
 				path: "destination",
@@ -39,6 +40,7 @@ const routes: Array<RouteRecordRaw> = [
 						return false;
 					}
 				},
+				meta: {step: 2}
 			},
 			{
 				path: "payment",
@@ -49,16 +51,18 @@ const routes: Array<RouteRecordRaw> = [
 						return false;
 					}
 				},
-			},
-			{
-				path: "complete",
-				name: "complete",
-				component: CompletePage,
+				meta: {step: 3}
 			},
 			{
 				path: "transaction",
 				name: "transaction",
 				component: TransactionPage,
+				meta: {step: 4}
+			},
+			{
+				path: "complete",
+				name: "complete",
+				component: CompletePage
 			},
 		],
 	},

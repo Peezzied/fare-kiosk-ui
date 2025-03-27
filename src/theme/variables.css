@@ -7,7 +7,7 @@ http://ionicframework.com/docs/theming/ */
 
 @font-face {
     font-family: "Body";
-    src: url("@/assets/fonts/ZillaSlab-Regular.ttf") format("truetype"), url("@/assets/fonts/ZillaSlab-Italic.ttf") format("truetype"), url("@/assets/fonts/ZillaSlab-Medium.ttf") format("truetype"), url("@/assets/fonts/ZillaSlab-Bold.ttf") format("truetype");
+    src: url("@/assets/fonts/ZillaSlab-Regular.ttf"), url("@/assets/fonts/ZillaSlab-Italic.ttf"), url("@/assets/fonts/ZillaSlab-Medium.ttf"), url("@/assets/fonts/ZillaSlab-Bold.ttf");
 }
 
 

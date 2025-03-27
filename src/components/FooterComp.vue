@@ -8,13 +8,15 @@ import {
 	IonCol,
 	IonRippleEffect,
 	IonIcon,
+	IonButton,
 } from "@ionic/vue";
-
 const router = useRouter();
 
 defineProps<{
 	to: (to: Router) => void;
+	disabled?: boolean;
 }>();
+
 
 </script>
 
@@ -23,24 +25,38 @@ defineProps<{
 		<ion-toolbar>
 			<ion-row class="ion-justify-content-center">
 				<ion-col size="11" class="navigation space-b">
-					<div class="ion-activatable ripple-parent circle">
+					<ion-button
+						@click="router.back()"
+						color="secondary"
+						fill="clear"
+						shape="round"
+						class="ion-activatable ripple-parent circle"
+					>
 						<ion-icon
+							slot="icon-only"
 							class="text-7xl"
 							color="secondary"
 							:icon="chevronBackSharp"
-							@click="router.back()"
 						></ion-icon>
 						<ion-ripple-effect></ion-ripple-effect>
-					</div>
-					<div class="ion-activatable ripple-parent circle">
+					</ion-button>
+					<slot></slot>
+					<ion-button
+						:disabled="false || disabled"
+						@click="to(router)"
+						color="secondary"
+						fill="clear"
+						shape="round"
+						class="ion-activatable ripple-parent circle"
+					>
 						<ion-icon
+							slot="icon-only"
 							class="text-7xl"
 							color="secondary"
 							:icon="chevronForwardSharp"
-							@click="to(router)"
 						></ion-icon>
-						<ion-ripple-effect></ion-ripple-effect>
-					</div>
+						<!-- <ion-ripple-effect></ion-ripple-effect> -->
+					</ion-button>
 				</ion-col>
 			</ion-row>
 		</ion-toolbar>
@@ -51,11 +67,9 @@ defineProps<{
 .navigation {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 }
 .ripple-parent {
-	position: relative;
-	overflow: hidden;
-	display: flex;
 	padding: 12px;
 	/* border: 1px solid #ddd; */
 }

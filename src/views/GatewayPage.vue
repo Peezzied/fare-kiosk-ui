@@ -9,6 +9,7 @@ import {
 	IonCol,
 	IonButton,
 	IonBadge,
+	IonSkeletonText
 } from "@ionic/vue";
 import { locationSharp } from "ionicons/icons";
 
@@ -16,6 +17,7 @@ import FooterComp from "@/components/FooterComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
 import { computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
+import StepIndicator from "@/components/StepIndicator.vue";
 // const props = defineProps<
 
 // >()
@@ -75,12 +77,13 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 					<ion-col size="11" class="space-y details">
 						<div class="text-mont text-medium ion-color-secondary">
 							<ion-badge
-								class="text-mont text-bold text-xl ion-text-uppercase"
+								class="text-mont text-bold text-xl ion-text-uppercase" style="background-color: #1B83DE;"
 								>{{ selectedPassenger?.type }}</ion-badge
 							>
-							<div class="text-7xl" style="line-height: 1.2">
+							<div class="text-7xl" style="line-height: 1.2; display: flex; align-items: center; white-space: pre;">
 								<span class="muted">Total Fare: </span
 								><span>₱{{}}</span>
+								<!-- <ion-skeleton-text v-if="" :animated="true" class="skeleton"></ion-skeleton-text> -->
 							</div>
 						</div>
 						<div
@@ -144,7 +147,8 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 					r.push({ name: 'transaction', query: { ...route.query } });
 				}
 			"
-		></footer-comp>
+
+		><step-indicator></step-indicator></footer-comp>
 	</ion-page>
 </template>
 
@@ -183,14 +187,20 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 .border {
 	--border-color: var(--ion-color-base);
 	--border-style: solid;
-	--border-width: 5px;
+	--border-width: 7px;
+	--box-shadow: 0;
 }
 .border-sel {
-	--border-color: var(--ion-color-primary);
+	--border-color: var(--ion-color-warning);
 	--border-style: solid;
-	--border-width: 5px;
+	--border-width: 7px;
 	border-radius: 10em;
-	box-shadow: 0 0 20px -6px var(--ion-color-primary);
+	box-shadow: 0 0 20px -11px var(--ion-color-warning);
 	transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.skeleton {
+	display: inline-block;
+	width: 13%;
+	height: 1em;
 }
 </style>
