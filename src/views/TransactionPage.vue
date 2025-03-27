@@ -16,6 +16,8 @@ import FooterComp from "@/components/FooterComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
 import { computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
+import coinImg from "@/assets/images/insert-coin.png"
+import billImg from "@/assets/images/insert-bill.png"
 // const props = defineProps<
 
 // >()
@@ -56,28 +58,15 @@ const selectedPassenger = computed(() => {
 	return passenger.find((p) => p.discount === route.query.passenger);
 });
 
-const preloadImages = (imageArray: string[]) => {
-	imageArray.forEach((src) => {
-		const img = new Image();
-		img.src = src;
-	});
-};
-
-onMounted(() => {
-	preloadImages([
-		new URL("@/assets/images/insert-coin.png", import.meta.url).href,
-		new URL("@/assets/images/insert-bill.png", import.meta.url).href,
-	]);
-});
 </script>
 
 <template>
 	<ion-page>
 		<header-comp></header-comp>
-		<ion-content class="center-content">
-			<ion-grid>
+		<ion-content :fullscreen="true">
+			<ion-grid class=" grid-container">
 				<!-- destination -->
-				<ion-row class="ion-justify-content-center">
+				<ion-row >
 					<ion-col size="11" class="space-y details">
 						<div class="text-mont text-medium ion-color-secondary">
 							<ion-badge
@@ -85,9 +74,17 @@ onMounted(() => {
 								style="background-color: #1b83de"
 								>{{ selectedPassenger?.type }}</ion-badge
 							>
-							<div class="text-Xxl" style="line-height: 1.2">
+							<div
+								class="text-Xxl"
+								style="
+									line-height: 1.2;
+									display: flex;
+									align-items: center;
+									white-space: pre;
+								"
+							>
 								<span class="muted">Total Fare: </span
-								><span>₱{{}}</span>
+								><span>₱{{ route.query.fare }}</span>
 							</div>
 						</div>
 						<div
@@ -117,13 +114,13 @@ onMounted(() => {
 				<ion-row class="ion-justify-content-center">
 					<ion-col size="11" class="space-y">
 						<div class="img-container space-y">
-							<img src="@/assets/images/insert-coin.png" alt="" />
+							<img :src="coinImg" alt="" />
 							<p
 								class="text-2xl ion-text-center instruction text-mont text-medium ion-color-secondary flicker"
 							>
 								{{ $t("transaction") }}
 							</p>
-							<img src="@/assets/images/insert-bill.png" alt="" />
+							<img :src="billImg" alt="" />
 						</div>
 					</ion-col>
 				</ion-row>
@@ -144,6 +141,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.grid-container {
+	display: grid;
+	justify-content: center; /* Centers horizontally */
+	align-content: center; /* Centers vertically */
+	height: 100%;
+}
 .center-content {
 	display: grid;
 	place-items: center;
@@ -208,7 +211,7 @@ onMounted(() => {
 }
 
 .instruction {
-	max-width: 14em;
+	max-width: 18em;
 }
 @keyframes flicker {
 	0% {

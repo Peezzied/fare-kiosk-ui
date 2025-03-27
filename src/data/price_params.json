@@ -1,0 +1,7 @@
+[
+    {"regular": 15, "discount_ratio": 0.20, "max_km": 3.8},
+    {"regular": 16, "discount_ratio": 0.20, "max_km": 4.6},
+    {"regular": 18, "discount_ratio": 0.20, "max_km": 6.88},
+    {"regular": 20, "discount_ratio": 0.20, "max_km": 7.58},
+    {"regular": 23, "discount_ratio": 0.20, "max_km": 9.38}
+]

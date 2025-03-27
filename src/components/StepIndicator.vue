@@ -11,7 +11,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -49,8 +49,8 @@ export default defineComponent({
 }
 
 .step {
-	width: 25px;
-	height: 25px;
+	width: 15px;
+	height: 15px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -65,14 +65,5 @@ export default defineComponent({
 .step.active {
 	background: #1B83DE; /* Ionic primary color */
 	color: white;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 600px) {
-	.step {
-		width: 20px;
-		height: 20px;
-		font-size: 12px;
-	}
 }
 </style>

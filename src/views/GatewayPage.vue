@@ -9,15 +9,16 @@ import {
 	IonCol,
 	IonButton,
 	IonBadge,
-	IonSkeletonText
 } from "@ionic/vue";
 import { locationSharp } from "ionicons/icons";
 
 import FooterComp from "@/components/FooterComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
-import { computed, onMounted } from "vue";
-import { useI18n } from "vue-i18n";
 import StepIndicator from "@/components/StepIndicator.vue";
+import { computed, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
+import places from "@/data/places.json";
+import prices from "@/data/price_params.json";
 // const props = defineProps<
 
 // >()
@@ -58,31 +59,73 @@ const selectedPassenger = computed(() => {
 	return passenger.find((p) => p.discount === route.query.passenger);
 });
 
+const farePrice = ref<number>(0);
+const priceCalc = (passenger: keyof typeof passengerOptions): number => {
+	const origin = places.find((o) => o.name === route.query.origin) ?? {
+		distance_km: 0,
+	};
+	const destination = places.find(
+		(o) => o.name === route.query.destination
+	) ?? { distance_km: 0 };
+
+	console.log("origin, destination", origin, destination);
+
+	const km = Math.abs(origin.distance_km - destination.distance_km);
+	console.log("km", km);
+
+	const price = prices.find((p) => p.max_km >= km);
+	console.log("price", price);
+
+	// Ensure default value to prevent undefined error
+	const regularPrice = price?.regular ?? 0;
+	const discount = price?.discount_ratio ?? 0;
+
+	// Return 0 if passenger is undefined
+	if (passenger === undefined) return 0;
+
+	const finalPrice =
+		passenger === "regular"
+			? regularPrice
+			: regularPrice - regularPrice * discount;
+
+	return Math.ceil(finalPrice);
+};
+
 const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 	router.replace({
-		query: { ...route.query, passenger: passengerType },
+		query: { ...route.query, passenger: passengerType, fare: priceCalc(passengerType) }, // Call priceCalc()
 	});
 };
 
-
+onMounted(() => {
+	updatePassenger("regular");
+});
 </script>
 
 <template>
 	<ion-page>
 		<header-comp></header-comp>
-		<ion-content class="center-content">
-			<ion-grid>
-				<!-- destination -->
+		<ion-content :fullscreen="true">
+			<ion-grid class="grid-container">
 				<ion-row class="ion-justify-content-center">
 					<ion-col size="11" class="space-y details">
 						<div class="text-mont text-medium ion-color-secondary">
 							<ion-badge
-								class="text-mont text-bold text-xl ion-text-uppercase" style="background-color: #1B83DE;"
+								class="text-mont text-bold text-xl ion-text-uppercase"
+								style="background-color: #1b83de"
 								>{{ selectedPassenger?.type }}</ion-badge
 							>
-							<div class="text-7xl" style="line-height: 1.2; display: flex; align-items: center; white-space: pre;">
+							<div
+								class="text-Xxl"
+								style="
+									line-height: 1.2;
+									display: flex;
+									align-items: center;
+									white-space: pre;
+								"
+							>
 								<span class="muted">Total Fare: </span
-								><span>₱{{}}</span>
+								><span>₱{{ route.query.fare }}</span>
 								<!-- <ion-skeleton-text v-if="" :animated="true" class="skeleton"></ion-skeleton-text> -->
 							</div>
 						</div>
@@ -147,12 +190,18 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 					r.push({ name: 'transaction', query: { ...route.query } });
 				}
 			"
-
-		><step-indicator></step-indicator></footer-comp>
+			><step-indicator></step-indicator
+		></footer-comp>
 	</ion-page>
 </template>
 
 <style scoped>
+.grid-container {
+	display: grid;
+	justify-content: center; /* Centers horizontally */
+	align-content: center; /* Centers vertically */
+	height: 100%;
+}
 .center-content {
 	display: grid;
 	place-items: center;
@@ -187,13 +236,13 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 .border {
 	--border-color: var(--ion-color-base);
 	--border-style: solid;
-	--border-width: 7px;
+	--border-width: .5rem;
 	--box-shadow: 0;
 }
 .border-sel {
 	--border-color: var(--ion-color-warning);
 	--border-style: solid;
-	--border-width: 7px;
+	--border-width: .5rem;
 	border-radius: 10em;
 	box-shadow: 0 0 20px -11px var(--ion-color-warning);
 	transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;

@@ -14,7 +14,7 @@ import { locationSharp } from "ionicons/icons";
 import { getLastWord, removeLastWord } from "@/utils/lastWord";
 import places from "@/data/places.json";
 import { routeType } from "@/utils/routeType";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 import FooterComp from "./FooterComp.vue";
 import HeaderComp from "./HeaderComp.vue";
@@ -186,7 +186,7 @@ onMounted(() => {
 	display: grid;
 	grid-template-columns: repeat(
 		auto-fit,
-		minmax(300px, 1fr)
+		minmax(250px, 1fr)
 	); /* Responsive columns */
 	gap: 10px;
 	/* grid-auto-rows: 1fr;  */

@@ -97,11 +97,11 @@ h1 {
 	flex-direction: row;
 	justify-content: space-evenly;
 }
-
 .grid-container {
 	display: grid;
 	justify-content: center; /* Centers horizontally */
 	align-content: center; /* Centers vertically */
 	height: 100vh;
 }
+
 </style>
