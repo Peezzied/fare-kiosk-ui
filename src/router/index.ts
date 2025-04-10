@@ -7,6 +7,8 @@ import GatewayPage from "@/views/GatewayPage.vue";
 import App from "@/App.vue";
 import CompletePage from "@/views/CompletePage.vue";
 import TransactionPage from "@/views/TransactionPage.vue";
+import { Network } from '@capacitor/network';
+import { useLoadingStore } from "@/stores/loadingStore";
 
 const routes: Array<RouteRecordRaw> = [
 	//default routes
@@ -25,6 +27,18 @@ const routes: Array<RouteRecordRaw> = [
 		component: SelectionComp,
 		props: { selectionType: "origin", to: "destination" },
 		meta: { step: 1 },
+		beforeEnter: async (to,from,next)=>{
+			const status = await Network.getStatus();
+			console.log("Is Connected",status.connected)
+			if (status.connected) {
+				return next()
+			} else {
+				const loadingStore = useLoadingStore();
+				loadingStore.startLoading()
+				console.log(loadingStore.isLoading)
+				return false
+			}
+		}
 	},
 	{
 		path: "/:lang/destination",

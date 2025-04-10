@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import { createPinia } from 'pinia'
 
 import { IonicVue } from '@ionic/vue';
 
@@ -41,7 +42,9 @@ import './theme/global.css';
 import './theme/variables.css';
 import i18n from './i18n'
 
+const pinia = createPinia()
 const app = createApp(App)
+  .use(pinia)
   .use(IonicVue, { mode: 'md' })
   .use(router)
   .use(i18n)

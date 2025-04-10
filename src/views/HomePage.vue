@@ -50,8 +50,12 @@ import {
 	IonCol,
 	IonButton,
 } from "@ionic/vue";
-
+import { Network } from "@capacitor/network";
 import { useRouter } from "vue-router";
+import { onMounted, onUnmounted } from "vue";
+import { useLoadingStore } from "@/stores/loadingStore";
+
+const loadingStore = useLoadingStore();
 
 const router = useRouter();
 
@@ -80,6 +84,19 @@ const languages: locale[] = [
 		code: "fil",
 	},
 ];
+
+onMounted(() => {
+	Network.addListener("networkStatusChange", (status) => {
+		if (status) {
+			loadingStore.stopLoading()
+			console.log("Network status changed", status);
+			console.log("Loading", loadingStore.isLoading)
+		}
+	});
+});
+onUnmounted(() => {
+	Network.removeAllListeners()
+});
 </script>
 
 <style scoped>
@@ -103,5 +120,4 @@ h1 {
 	align-content: center; /* Centers vertically */
 	height: 100vh;
 }
-
 </style>
