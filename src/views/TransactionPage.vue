@@ -36,7 +36,6 @@ interface PassengerOptions {
 const route = useRoute();
 const router = useRouter();
 const i18n = useI18n();
-// const { play } = useSound(exitSound, {volume: .5});
 const passenger: PassengerOptions[] = [
 	{
 		type: i18n.t("regular"),
@@ -61,45 +60,7 @@ let rws: ReconnectingWebSocket
 const selectedPassenger = computed(() => {
 	return passenger.find((p) => p.discount === route.query.passenger);
 });
-const sendTripData = ()=>{
-	const { origin, destination, passenger, fare } = route.query;
-	console.log(origin, destination, passenger, fare)
-	const data = JSON.stringify({
-		origin: origin,
-		destination: destination,
-		passenger: passenger,
-		fare: fare
-	})
 
-	console.log('Sent JSON:', data);
-	rws.send(data)
-}
-
-onMounted(() => {
-	rws = new ReconnectingWebSocket("ws://192.168.1.49/ws");
-
-	rws.addEventListener("open", () => {
-		console.log("WebSocket connection opened (or reconnected).");
-	});
-
-	// rws.addEventListener("message", (event) => {
-	// 	message.value = event.data;
-	// });
-
-	rws.addEventListener("error", (error) => {
-		console.error("WebSocket error:", error);
-	});
-
-	rws.addEventListener("close", () => {
-		console.log("WebSocket closed. Will attempt to reconnect...");
-	});
-});
-
-onBeforeMount(() => {
-	if (rws) {
-		rws.close(); 
-	}
-});
 </script>
 
 <template>
@@ -188,7 +149,10 @@ onBeforeMount(() => {
 			:disabled="true"
 		>
 			<ion-button
-		
+				@click="
+					router.push('/');
+					play();
+				"
 				color="warning"
 				shape="round"
 				fill="outline"
