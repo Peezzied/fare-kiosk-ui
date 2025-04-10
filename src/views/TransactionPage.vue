@@ -14,12 +14,13 @@ import { locationSharp } from "ionicons/icons";
 
 import FooterComp from "@/components/FooterComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
-import { computed } from "vue";
+import { computed, onBeforeMount, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import coinImg from "@/assets/images/insert-coin.png";
 import billImg from "@/assets/images/insert-bill.png";
 import { useSound } from "@vueuse/sound";
 import exitSound from "@/assets/sounds/kansel.wav";
+import ReconnectingWebSocket from "reconnecting-websocket";
 
 enum passengerOptions {
 	regular,
@@ -55,8 +56,49 @@ const passenger: PassengerOptions[] = [
 	},
 ];
 
+let rws: ReconnectingWebSocket
+
 const selectedPassenger = computed(() => {
 	return passenger.find((p) => p.discount === route.query.passenger);
+});
+const sendTripData = ()=>{
+	const { origin, destination, passenger, fare } = route.query;
+	console.log(origin, destination, passenger, fare)
+	const data = JSON.stringify({
+		origin: origin,
+		destination: destination,
+		passenger: passenger,
+		fare: fare
+	})
+
+	console.log('Sent JSON:', data);
+	rws.send(data)
+}
+
+onMounted(() => {
+	rws = new ReconnectingWebSocket("ws://192.168.1.49/ws");
+
+	rws.addEventListener("open", () => {
+		console.log("WebSocket connection opened (or reconnected).");
+	});
+
+	// rws.addEventListener("message", (event) => {
+	// 	message.value = event.data;
+	// });
+
+	rws.addEventListener("error", (error) => {
+		console.error("WebSocket error:", error);
+	});
+
+	rws.addEventListener("close", () => {
+		console.log("WebSocket closed. Will attempt to reconnect...");
+	});
+});
+
+onBeforeMount(() => {
+	if (rws) {
+		rws.close(); 
+	}
 });
 </script>
 
@@ -122,6 +164,16 @@ const selectedPassenger = computed(() => {
 							</p>
 							<img :src="billImg" alt="" />
 						</div>
+						<!-- <ion-button
+							@click="sendTripData()"
+							router-link="/en"
+							color="primary"
+							shape="round"
+							fill="outline"
+							size="large"
+							class="text-2xl text-mont text-medium cancel-btn"
+							>Test Webhook</ion-button
+						> -->
 					</ion-col>
 				</ion-row>
 			</ion-grid>
@@ -136,7 +188,7 @@ const selectedPassenger = computed(() => {
 			:disabled="true"
 		>
 			<ion-button
-				router-link="/en"
+		
 				color="warning"
 				shape="round"
 				fill="outline"
