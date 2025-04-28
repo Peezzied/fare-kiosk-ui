@@ -49,10 +49,11 @@ import {
 	IonRow,
 	IonCol,
 	IonButton,
+	onIonViewWillEnter,
+	onIonViewWillLeave,
 } from "@ionic/vue";
 import { Network } from "@capacitor/network";
 import { useRouter } from "vue-router";
-import { onMounted, onUnmounted } from "vue";
 import { useLoadingStore } from "@/stores/loadingStore";
 
 const loadingStore = useLoadingStore();
@@ -85,7 +86,7 @@ const languages: locale[] = [
 	},
 ];
 
-onMounted(() => {
+onIonViewWillEnter(() => {
 	Network.addListener("networkStatusChange", (status) => {
 		if (status) {
 			loadingStore.stopLoading()
@@ -94,7 +95,7 @@ onMounted(() => {
 		}
 	});
 });
-onUnmounted(() => {
+onIonViewWillLeave(() => {
 	Network.removeAllListeners()
 });
 </script>

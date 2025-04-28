@@ -9,12 +9,14 @@ import {
 	IonCol,
 	IonButton,
 	IonBadge,
+	onIonViewWillLeave,
+	onIonViewWillEnter,
 } from "@ionic/vue";
 import { locationSharp } from "ionicons/icons";
 
 import FooterComp from "@/components/FooterComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
-import { computed, onBeforeMount, onMounted } from "vue";
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import coinImg from "@/assets/images/insert-coin.png";
 import billImg from "@/assets/images/insert-bill.png";
@@ -36,6 +38,7 @@ interface PassengerOptions {
 const route = useRoute();
 const router = useRouter();
 const i18n = useI18n();
+const { play } = useSound(exitSound, {volume: .5});
 const passenger: PassengerOptions[] = [
 	{
 		type: i18n.t("regular"),
@@ -60,7 +63,51 @@ let rws: ReconnectingWebSocket
 const selectedPassenger = computed(() => {
 	return passenger.find((p) => p.discount === route.query.passenger);
 });
+const sendTripData = ()=>{
+	const { origin, destination, passenger, fare } = route.query;
+	// console.log(origin, destination, passenger, fare)
+    const now = new Date();
+    const date = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getFullYear()).slice(-2)}`;
+    const hours = now.getHours() % 12 || 12;
+    const time = `${String(hours).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} ${now.getHours() >= 12 ? 'PM' : 'AM'}`;
 
+    const data = JSON.stringify({ origin, destination, passenger, fare, date, time });
+
+	console.log('Sent JSON:', data);
+	rws.send(data)
+}
+
+onIonViewWillEnter(() => {
+	rws = new ReconnectingWebSocket("ws://192.168.1.54/ws");
+
+	sendTripData();
+
+	rws.addEventListener("open", () => {
+		console.log("WebSocket connection opened (or reconnected).");
+	});
+
+	rws.addEventListener("message", (event) => {
+		const message = JSON.parse(event.data);
+		if (message) {
+			console.log("Received JSON:", message);
+		}
+		// router.push({ name: 'complete' })
+	});
+
+	rws.addEventListener("error", (error) => {
+		console.error("WebSocket error:", error);
+	});
+
+	rws.addEventListener("close", () => {
+		console.log("WebSocket closed. Will attempt to reconnect...");
+	});
+});
+
+onIonViewWillLeave(() => {
+	if (rws) {
+		rws.close(); 
+	}
+});
 </script>
 
 <template>

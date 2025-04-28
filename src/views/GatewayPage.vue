@@ -9,15 +9,17 @@ import {
 	IonCol,
 	IonButton,
 	IonBadge,
+	onIonViewWillEnter,
 } from "@ionic/vue";
 import { locationSharp } from "ionicons/icons";
 
 import FooterComp from "@/components/FooterComp.vue";
 import HeaderComp from "@/components/HeaderComp.vue";
 import StepIndicator from "@/components/StepIndicator.vue";
-import { computed, onMounted } from "vue";
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
-import places from "@/data/places.json";
+import placesNova from "@/data/places_nova.json";
+import placesMalinta from "@/data/places_malinta.json";
 import prices from "@/data/price_params.json";
 import { useSound } from "@vueuse/sound";
 import enterSound from "@/assets/sounds/enter.wav";
@@ -61,10 +63,10 @@ const selectedPassenger = computed(() => {
 });
 
 const priceCalc = (passenger: keyof typeof passengerOptions): number => {
-	const origin = places.find((o) => o.name === route.query.origin) ?? {
+	const origin = placesMalinta.find((o) => o.name === route.query.origin) ?? {
 		distance_km: 0,
 	};
-	const destination = places.find(
+	const destination = placesMalinta.find(
 		(o) => o.name === route.query.destination
 	) ?? { distance_km: 0 };
 
@@ -101,7 +103,7 @@ const updatePassenger = (passengerType: keyof typeof passengerOptions) => {
 	});
 };
 
-onMounted(() => {
+onIonViewWillEnter(() => {
 	updatePassenger("regular");
 });
 </script>
@@ -112,7 +114,7 @@ onMounted(() => {
 		<ion-content :fullscreen="true">
 			<ion-grid class="grid-container">
 				<ion-row class="ion-justify-content-center">
-					<ion-col size="11" class="space-y details">
+					<ion-col size="12" class="space-y details">
 						<div class="text-mont text-medium ion-color-secondary">
 							<ion-badge
 								class="text-mont text-bold text-xl ion-text-uppercase"
@@ -158,7 +160,7 @@ onMounted(() => {
 					</ion-col>
 				</ion-row>
 				<ion-row class="ion-justify-content-center">
-					<ion-col size="11" class="space-y">
+					<ion-col size="12" class="space-y">
 						<h1
 							class="text-body ion-color-secondary text-4xl text-medium"
 						>
@@ -197,7 +199,7 @@ onMounted(() => {
 				}
 			"
 		>
-			<!-- <step-indicator></step-indicator> -->
+			<step-indicator></step-indicator>
 		</footer-comp>
 	</ion-page>
 </template>

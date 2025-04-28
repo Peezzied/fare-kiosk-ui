@@ -4,7 +4,6 @@ import HomePage from "../views/HomePage.vue";
 import i18n from "@/i18n";
 import SelectionComp from "@/components/SelectionPage.vue";
 import GatewayPage from "@/views/GatewayPage.vue";
-import App from "@/App.vue";
 import CompletePage from "@/views/CompletePage.vue";
 import TransactionPage from "@/views/TransactionPage.vue";
 import { Network } from '@capacitor/network';

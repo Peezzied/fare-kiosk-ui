@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { IonPage, IonContent, IonGrid, IonCol, IonRow } from "@ionic/vue";
+import { IonPage, IonContent, IonGrid, IonCol, IonRow, onIonViewDidEnter } from "@ionic/vue";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 const { t } = useI18n();
+const router = useRouter();
 const textArray = computed(() => {
 	return t("thanks")
 		.split("! ")
 		.map((sentence) => sentence.trim());
+});
+
+onIonViewDidEnter(() => {
+	setTimeout(() => {
+		router.push({ name: "home" }); // or use { path: "/" } if you don't use named routes
+	}, 6000); // 15 seconds
 });
 </script>
 

@@ -10,13 +10,15 @@ import {
 } from "@ionic/vue";
 import { locationSharp } from "ionicons/icons";
 import { getLastWord, removeLastWord } from "@/utils/lastWord";
-import places from "@/data/places.json";
+import placesNova from "@/data/places_nova.json";
+import placesMalinta from "@/data/places_malinta.json";
 import { routeType } from "@/utils/routeType";
+import { onIonViewWillEnter } from '@ionic/vue';
 import { useRoute, useRouter } from "vue-router";
 
 import FooterComp from "./FooterComp.vue";
 import HeaderComp from "./HeaderComp.vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import StepIndicator from "./StepIndicator.vue";
 
 const router = useRouter();
@@ -51,14 +53,16 @@ const selectLocation = (loc: string) => {
 	}
 };
 
-onMounted(() => {
+onIonViewWillEnter(() => {
 	if (props.selectionType == "destination" && route.query.origin) {
-		optionStart.value = places.findIndex(
+		optionStart.value = placesMalinta.findIndex(
 			(item) => item.name === route.query.origin
 		);
 		console.log("selected", optionStart.value);
 	}
 });
+
+
 </script>
 
 <template>
@@ -115,13 +119,13 @@ onMounted(() => {
 										? 'tertiary-1'
 										: 'tertiary-2'
 								"
-								v-for="(poi, index) in places"
+								v-for="(poi, index) in placesMalinta"
 								:disabled="
 									(optionStart !== undefined
 										? index <= optionStart
 										: false) ||
 									(selectionType === 'origin'
-										? index == places.length - 1
+										? index == placesMalinta.length - 1
 										: false)
 								"
 								:key="index"
@@ -170,7 +174,7 @@ onMounted(() => {
 			"
 			:disabled="true"
 		>
-			<!-- <step-indicator></step-indicator> -->
+			<step-indicator></step-indicator>
 		</footer-comp>
 	</ion-page>
 </template>
